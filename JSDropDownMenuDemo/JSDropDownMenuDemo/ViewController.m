@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "JSDropDownMenu.h"
 
-@interface ViewController ()<JSDropDownMenuDataSource,JSDropDownMenuDelegate>{
+@interface ViewController ()<JSDropDownMenuDataSource,JSDropDownMenuDelegate, UITableViewDataSource, UITableViewDelegate>{
     
     NSMutableArray *_data1;
     NSMutableArray *_data2;
@@ -49,8 +49,43 @@
     menu.dataSource = self;
     menu.delegate = self;
     
-    [self.view addSubview:menu];
+    UITableView * tableView = [[UITableView alloc]initWithFrame:self.view.bounds];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    [self.view addSubview:tableView];
+
 }
+
+
+#pragma mark - TableViewDelegate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 30;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", indexPath];
+    return cell;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return menu;
+    }
+    return [UIView new];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 45;
+}
+
+#pragma mark -
 
 - (NSInteger)numberOfColumnsInMenu:(JSDropDownMenu *)menu {
     

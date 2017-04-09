@@ -517,6 +517,14 @@
                 _rightTableView.frame = CGRectMake(_origin.x+_leftTableView.frame.size.width, self.frame.origin.y + self.frame.size.height, self.frame.size.width*(1-ratio), 0);
             }
             
+            //+++
+            if (_backGroundView) {
+                CGRect temp = _backGroundView.frame;
+                temp.origin = CGPointMake(self.frame.origin.x, self.frame.origin.y);
+                _backGroundView.frame = temp;
+            }
+
+            
             if (_currentSelectedMenudIndex!=-1) {
                 // 需要隐藏collectionview
                 [self animateCollectionView:_collectionView show:NO complete:^{
@@ -685,7 +693,16 @@
             if (collectionView) {
                 collectionView.frame = CGRectMake(_origin.x, self.frame.origin.y + self.frame.size.height, self.frame.size.width, collectionViewHeight);
             }
+            
         }];
+        
+        //+++
+        if (_backGroundView) {
+            CGRect temp = _backGroundView.frame;
+            temp.origin = CGPointMake(self.frame.origin.x, self.frame.origin.y);
+            _backGroundView.frame = temp;
+        }
+        
     } else {
         [UIView animateWithDuration:0.2 animations:^{
             
